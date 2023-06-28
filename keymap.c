@@ -12,7 +12,6 @@
 
 enum custom_keycodes {
   AZERTY = SAFE_RANGE,
-  ACCENTS,
   NUMBERS,
   UTILITY,
 };
@@ -20,29 +19,20 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_AZERTY] = LAYOUT(
-     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                          KC_NO, KC_NO,       KC_NO,       KC_NO,  KC_NO,   KC_NO,
-     KC_TAB,KC_Q,  KC_W,  KC_E,  KC_R,  KC_T,                                           KC_Y,  KC_U,        KC_I,        KC_O,   KC_P,    LT(0, FR_QUOT),
-     OSL(1),KC_A,  KC_S,  LT(2,KC_D),  LT(3,KC_F), KC_G,                                KC_H,  LT(3, KC_J), LT(2, KC_K), KC_L,   KC_M,    FR_GRV,
-     LT(0, FR_LPRN), LT(0, FR_COLN), FR_W, KC_X, KC_C, LT(0,FR_DOT),    KC_BSPC,      KC_DEL,  LT(0, FR_COMM), KC_V, KC_B, KC_N, KC_EQL, LT(0, FR_RPRN),
+     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                               KC_NO, KC_NO,          KC_NO,       KC_NO,       KC_NO,  KC_NO,
+     KC_TAB,LT(0,FR_A),  KC_W,  LT(0, FR_E),  LT(0, FR_R),  KC_T,                            KC_Y,  LT(0, FR_U),    LT(0, FR_I), LT(0, FR_O), KC_P,   LT(0, FR_QUOT),
+     KC_NO, KC_A,  KC_S,  LT(2,KC_D),  LT(3,KC_F), KC_G,                                     KC_H,  LT(3, KC_J),    LT(2, KC_K), KC_L,        KC_M,   FR_GRV,
+     LT(0, FR_LPRN), LT(0, FR_COLN), FR_W, KC_X, LT(0, FR_C), LT(0,FR_DOT),    KC_BSPC,      KC_DEL,LT(0, FR_COMM), KC_V, KC_B, KC_N, LT(0,KC_EQL), LT(0, FR_RPRN),
                                           KC_LCTL,    KC_LGUI,    KC_SPC,       KC_ENT,     LT(KC_RSFT, KC_ESC), KC_RALT
-  ),
-
-  // Accented caracters
-  [_ACCENTS] = LAYOUT(
-     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                            KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,
-     KC_NO,   FR_AGRV, KC_NO,   FR_EGRV, FR_EACU, KC_NO,                            KC_NO,   FR_UGRV, KC_NO,    KC_NO,   KC_NO,   KC_NO,
-     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                            KC_NO,   KC_NO,   FR_CIRC,  FR_DIAE, KC_NO,   KC_NO,
-     KC_NO,   KC_NO,   KC_NO,   KC_NO,   FR_CCED, KC_NO,    KC_TRNS,    KC_TRNS,    KC_NO,   KC_NO,   KC_NO,    KC_NO,   KC_NO,   KC_NO,
-                                         KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS,    KC_TRNS, KC_TRNS 
   ),
 
   // "temporary" layout for numbers and special caracters
   [_NUMBERS] = LAYOUT(
-     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                            KC_NO,   KC_NO, KC_NO,  KC_NO, KC_NO,   KC_NO,
-     KC_NO,   KC_AT,   FR_AMPR, FR_EURO, KC_HASH, FR_UNDS,                          KC_PSLS, KC_P7, KC_P8,  KC_P9, KC_PMNS, KC_NO,
-     KC_NO,   KC_DLR,  KC_LBRC, KC_RBRC, KC_9,    KC_NUHS,                          KC_PAST, KC_P4, KC_P5,  KC_P6, KC_PPLS, KC_NO,
-     KC_NO,   KC_PERC, KC_LT,   KC_GT,   KC_QUES, KC_NO,    KC_TRNS,    KC_TRNS,    KC_P0,   KC_P1, KC_P2,  KC_P3, KC_EQL, KC_NO,
-                                         KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS,    KC_TRNS, KC_TRNS 
+     KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                            KC_NO,         KC_NO, KC_NO,  KC_NO, KC_NO,   KC_NO,
+     KC_NO,   FR_AT,   FR_AMPR, FR_EURO, FR_HASH, KC_NO,                            LT(2,FR_SLSH), KC_P7, KC_P8,  KC_P9, KC_PMNS, KC_NO,
+     KC_NO,   FR_DLR,  FR_LBRC, FR_RBRC, FR_UNDS, KC_NO,                            KC_PAST,       KC_P4, KC_P5,  KC_P6, KC_PPLS, KC_NO,
+     KC_NO,   FR_PERC, FR_LABK, FR_RABK, FR_TILD, KC_NO,    KC_TRNS,    KC_TRNS,    KC_P0,         KC_P1, KC_P2,  KC_P3, KC_EQL, KC_NO,
+                                         KC_TRNS, KC_TRNS,  KC_TRNS,    KC_TRNS,    KC_TRNS,       KC_TRNS 
   ),
 
   // "temporary" layout for mouse, navigation, and shortcuts
@@ -130,6 +120,95 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         return true;
 
+    case LT(0,FR_A): // a à
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_AGRV); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_E): // e è
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_EGRV); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_R): // r é
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_EACU); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_U): // u ù
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_UGRV); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_C): // c ç
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_CCED); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_I): // i ^
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_CIRC); 
+            return false;
+        }
+        return true;
+
+    case LT(0,FR_O): // o ¨
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            tap_code16(FR_DIAE); 
+            return false;
+        }
+        return true;
+
+    case LT(2,FR_SLSH): // / backslash
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            SEND_STRING("\\");
+            return false;
+        }
+        return true;
+
+    case LT(0,KC_EQL): // = |
+        if (record->tap.count && record->event.pressed) {
+            return true; 
+            break;
+        } else if (record->event.pressed) {
+            SEND_STRING("|");
+            return false;
+        }
+        return true;
   }
   return true;
 }
